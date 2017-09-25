@@ -9,17 +9,17 @@ const petSchema = mongoose.Schema({
   petId: Number,
   name: String,
   description: String,
-  availableStatus: Boolean,
-  breed: String,
+  availableStatus: String,
+  breed: [String],
   mix: Boolean,
   size: String,             // 'S' || 'M' || 'L'
-  gender: String,           // 'M' || 'F'
+  sex: String,           // 'M' || 'F'
   age: Number,
   ageClass: String,
-  photoUrls: Array,
+  photoUrls: [String],
   isFavorite: Boolean,
   shelterId: String,
-  shelterPetId: Number,
+  shelterPetId: String,
   contactNameFirst: String,
   contactNameLast: String,
   contactAddress1: String,
@@ -27,7 +27,7 @@ const petSchema = mongoose.Schema({
   contactCity: String,
   contactState: String,
   contactPostalCode: String,
-  contactPhoneNumber: Number,
+  contactPhoneNumber: String,
   contactEmail: String
 }, { versionKey: 'pet v1' }); // set a version to keep track for migrations later
 

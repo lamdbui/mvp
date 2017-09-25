@@ -48,57 +48,48 @@ var getPets = (options = {}) => {
 
 // TODO: Maybe think of a better place to put this or do this
 var mapRequestToPetDatabaseModel = jsonPetResponse => {
-  // petId: Number,
-  // name: String,
-  // description: String,
-  // availableStatus: Boolean,
-  // breed: String,
-  // mix: Boolean,
-  // size: String,             // 'S' || 'M' || 'L'
-  // gender: String,           // 'M' || 'F'
-  // age: Number,
-  // ageClass: String,
-  // photoUrls: Array,
-  // isFavorite: Boolean,
-  // shelterId: String,
-  // shelterPetId: Number,
-  // contactNameFirst: String,
-  // contactNameLast: String,
-  // contactAddress1: String,
-  // contactAddress2: String,
-  // contactCity: String,
-  // contactState: String,
-  // contactPostalCode: String,
-  // contactPhoneNumber: Number,
-  // contactEmail: String
-
   // petfinder uses this key, not sure why...
   const DEFAULT_PETFINDER_KEY = '$t';
 
+  // TODO: This should really be defined on the database side
+  const DEFAULT_NUMBER = -1;
+  const DEFAULT_STRING = '';
+
+  let jsonPetResponseBreeds = (jsonPetResponse.breeds && jsonPetResponse.breeds.breed) ? jsonPetResponse.breeds.breed : [];
+  let mappedBreedsArr = jsonPetResponseBreeds.map(breed => {
+    return breed.DEFAULT_PETFINDER_KEY;
+  }, []);
+
+  let jsonPetResponsePhotos = (jsonPetResponse.media && jsonPetResponse.media.photos && jsonPetResponse.media.photos.photo) ?
+    jsonPetResponse.media.photos.photo : [];
+  let mappedPhotosArr = jsonPetResponsePhotos.map(photo => {
+    return photo.DEFAULT_PETFINDER_KEY;
+  }, []);
+
   let modelMap = {
-    petId: (jsonPetResponse.id) ? jsonPetResponse.id.DEFAULT_PETFINDER_KEY : -1,
-    name: String,
-    description: String,
-    availableStatus: Boolean,
-    breed: String,
-    mix: Boolean,
-    size: String,             // 'S' || 'M' || 'L'
-    gender: String,           // 'M' || 'F'
-    age: Number,
-    ageClass: String,
-    photoUrls: Array,
-    isFavorite: Boolean,
-    shelterId: String,
-    shelterPetId: Number,
-    contactNameFirst: String,
-    contactNameLast: String,
-    contactAddress1: String,
-    contactAddress2: String,
-    contactCity: String,
-    contactState: String,
-    contactPostalCode: String,
-    contactPhoneNumber: Number,
-    contactEmail: String
+    petId: (jsonPetResponse.id) ? parseInt(jsonPetResponse.id.DEFAULT_PETFINDER_KEY) : DEFAULT_NUMBER,
+    name: (jsonPetResponse.name) ? jsonPetResponse.name.DEFAULT_PETFINDER_KEY : DEFAULT_STRING,
+    description: (jsonPetResponse.description) ? jsonPetResponse.description.DEFAULT_PETFINDER_KEY : DEFAULT_STRING,
+    availableStatus: (jsonPetResponse.status) ? jsonPetResponse.status.DEFAULT_PETFINDER_KEY : DEFAULT_STRING,
+    breed: mappedBreedsArr,
+    mix: (jsonPetResponse.mix && jsonPetResponse.mix.toLowerCase().indexOf(0) === 'y') ? true : false,
+    size: (jsonPetResponse.size) ? jsonPetResponse.size.DEFAULT_PETFINDER_KEY : DEFAULT_STRING,
+    sex: (jsonPetResponse.sex) ? jsonPetResponse.sex.DEFAULT_PETFINDER_KEY : DEFAULT_STRING,
+    age: DEFAULT_NUMBER,      // currently no numerical age available in API
+    ageClass: (jsonPetResponse.age) ? jsonPetResponse.age.DEFAULT_PETFINDER_KEY : DEFAULT_STRING,
+    photoUrls: mappedPhotosArr,
+    isFavorite: false,  // TODO: Make this our own later
+    shelterId: (jsonPetResponse.shelterId) ? jsonPetResponse.shelterId.DEFAULT_PETFINDER_KEY : DEFAULT_STRING,
+    shelterPetId: (jsonPetResponse.shelterPetId) ? jsonPetResponse.shelterPetId.DEFAULT_PETFINDER_KEY : DEFAULT_STRING,
+    contactNameFirst: DEFAULT_STRING, // currently no contact name available in API
+    contactNameLast: DEFAULT_STRING,  // currently no contact name available in API
+    contactAddress1: (jsonPetResponse.contact && jsonPetResponse.contact.address1) ? jsonPetResponse.contact.address1.DEFAULT_PETFINDER_KEY : DEFAULT_STRING,
+    contactAddress2: (jsonPetResponse.contact && jsonPetResponse.contact.address2) ? jsonPetResponse.contact.address2.DEFAULT_PETFINDER_KEY : DEFAULT_STRING,
+    contactCity: (jsonPetResponse.contact && jsonPetResponse.contact.city) ? jsonPetResponse.contact.city.DEFAULT_PETFINDER_KEY : DEFAULT_STRING,
+    contactState: DEFAULT_STRING,     // currently no State info available in API
+    contactPostalCode: (jsonPetResponse.contact && jsonPetResponse.contact.zip) ? jsonPetResponse.contact.zip.DEFAULT_PETFINDER_KEY : DEFAULT_STRING,
+    contactPhoneNumber: (jsonPetResponse.contact && jsonPetResponse.contact.phone) ? jsonPetResponse.contact.phone.DEFAULT_PETFINDER_KEY : DEFAULT_STRING,
+    contactEmail: (jsonPetResponse.contact && jsonPetResponse.contact.email) ? jsonPetResponse.contact.email.DEFAULT_PETFINDER_KEY : DEFAULT_STRING
   };
 
   return modelMap;
