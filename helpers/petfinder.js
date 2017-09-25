@@ -1,8 +1,11 @@
-// const $ = require('jquery');
 const request = require('request');
 const querystring = require('querystring');
+const database = require('../database');
+const petModel = database.Pet;
 
 const LOG_TAG = 'PETFINDER';
+
+// exampleData.petfinder.pets.pet (ARRAY of PETS)
 
 const defaults = {
   BASE_URL: 'http://api.petfinder.com/',
@@ -18,7 +21,6 @@ const defaults = {
 //   format:   // 'json' || 'xml'
 //   location: // postalCode or city (e.g. 92612 or 'san francisco, ca')
 // }
-
 
 var getPets = (options = {}) => {
   return new Promise((resolve, reject) => {
@@ -38,28 +40,68 @@ var getPets = (options = {}) => {
         reject(error);
       } else {
         console.log(`[${LOG_TAG}] GET data received: ${response}`);
-        resolve(response)
+        resolve(response);
       }
     });
-    // let requestOptions = {
-    //   method: 'GET',
-    //   url: `${defaults.BASE_URL}/?${resultQueryString}`,
-    //   success: data => {
-    //     console.log(`[${LOG_TAG}] GET data received: ${data}`);
-    //     resolve(data);
-    //   },
-    //   failure: error => {
-    //     console.log(`[${LOG_TAG}] GET failure : ${error}`);
-    //     reject(error);
-    //   }
-    // };
-    //$.ajax(requestOptions)
-      // .done(data => {
-      //   console.log(`[${LOG_TAG}] data received: ${data}`);
-      //   resolve(data);
-      // })
-      // .fail();
   });
 }
+
+// TODO: Maybe think of a better place to put this or do this
+var mapRequestToPetDatabaseModel = jsonPetResponse => {
+  // petId: Number,
+  // name: String,
+  // description: String,
+  // availableStatus: Boolean,
+  // breed: String,
+  // mix: Boolean,
+  // size: String,             // 'S' || 'M' || 'L'
+  // gender: String,           // 'M' || 'F'
+  // age: Number,
+  // ageClass: String,
+  // photoUrls: Array,
+  // isFavorite: Boolean,
+  // shelterId: String,
+  // shelterPetId: Number,
+  // contactNameFirst: String,
+  // contactNameLast: String,
+  // contactAddress1: String,
+  // contactAddress2: String,
+  // contactCity: String,
+  // contactState: String,
+  // contactPostalCode: String,
+  // contactPhoneNumber: Number,
+  // contactEmail: String
+
+  // petfinder uses this key, not sure why...
+  const DEFAULT_PETFINDER_KEY = '$t';
+
+  let modelMap = {
+    petId: (jsonPetResponse.id) ? jsonPetResponse.id.DEFAULT_PETFINDER_KEY : -1,
+    name: String,
+    description: String,
+    availableStatus: Boolean,
+    breed: String,
+    mix: Boolean,
+    size: String,             // 'S' || 'M' || 'L'
+    gender: String,           // 'M' || 'F'
+    age: Number,
+    ageClass: String,
+    photoUrls: Array,
+    isFavorite: Boolean,
+    shelterId: String,
+    shelterPetId: Number,
+    contactNameFirst: String,
+    contactNameLast: String,
+    contactAddress1: String,
+    contactAddress2: String,
+    contactCity: String,
+    contactState: String,
+    contactPostalCode: String,
+    contactPhoneNumber: Number,
+    contactEmail: String
+  };
+
+  return modelMap;
+};
 
 module.exports.getPets = getPets;

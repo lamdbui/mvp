@@ -3514,3 +3514,4 @@ var exampleData = {
         "@xsi:noNamespaceSchemaLocation": "http://api.petfinder.com/schemas/0.9/petfinder.xsd"
     }
 }
+module.exports.exampleData = exampleData; 

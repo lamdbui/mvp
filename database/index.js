@@ -6,12 +6,20 @@ const SERVER = 'localhost';
 mongoose.connect(`mongodb://${SERVER}/${DATABASE}`);
 
 const petSchema = mongoose.Schema({
+  petId: Number,
   name: String,
+  description: String,
   availableStatus: Boolean,
-  gender: String,
+  breed: String,
+  mix: Boolean,
+  size: String,             // 'S' || 'M' || 'L'
+  gender: String,           // 'M' || 'F'
   age: Number,
   ageClass: String,
   photoUrls: Array,
+  isFavorite: Boolean,
+  shelterId: String,
+  shelterPetId: Number,
   contactNameFirst: String,
   contactNameLast: String,
   contactAddress1: String,
@@ -19,10 +27,15 @@ const petSchema = mongoose.Schema({
   contactCity: String,
   contactState: String,
   contactPostalCode: String,
-  contactPhoneNumber: Number
-});
+  contactPhoneNumber: Number,
+  contactEmail: String
+}, { versionKey: 'pet v1' }); // set a version to keep track for migrations later
 
 var Pet = mongoose.model('Pet', petSchema);
+
+// var getSchemaMapping() {
+//
+// };
 
 var get = (callback) => {
   Pet.find().exec()
