@@ -1,0 +1,19 @@
+{
+  "name": "hrsf81-mvp",
+  "version": "0.0.9",
+  "description": "search application to connect people with adoptable pets",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lamdbui/hrsf81-mvp.git"
+  },
+  "author": "Lam Bui",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lamdbui/hrsf81-mvp/issues"
+  },
+  "homepage": "https://github.com/lamdbui/hrsf81-mvp#readme"
+}
