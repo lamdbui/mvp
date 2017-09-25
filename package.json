@@ -20,6 +20,7 @@
   "homepage": "https://github.com/lamdbui/hrsf81-mvp#readme",
   "dependencies": {
     "express": "^4.15.5",
+    "mongoose": "^4.11.13",
     "react": "^15.6.1",
     "react-dom": "^15.6.1"
   },
