@@ -29,13 +29,31 @@ class App extends React.Component {
       method: 'GET',
       url: url,
       success: (data) => {
-        this.setState({ pets: data, currentPets: data });
+
+        // count all the breeds
+        let breedCounter = {};
+        data.forEach(pet => {
+          // console.log('*** BREED:', pet.breed);
+          let currentPetbreeds = pet.breed;
+          currentPetbreeds.forEach(breed => {
+            breedCounter[breed] = (breedCounter[breed] === undefined) ? 1 : breedCounter[breed] + 1;
+          });
+        });
+
+        console.log('*** BC:', breedCounter);
+
+        this.setState({
+          pets: data,
+          currentPets: data,
+          breedCounter: breedCounter
+        });
+
+        // this.setState({ pets: data, currentPets: data });
       },
       error: (data) => {
         console.log('*** THE SADNESS -', data);
       }
     });
-
 
     this.setState({ currentLocation: location });
   }
@@ -104,7 +122,6 @@ class App extends React.Component {
           currentPets: data,
           breedCounter: breedCounter
         });
-        // this.setState({ pets: data, currentPets: data });
       },
       error: (data) => {
         console.log('*** THE SADNESS -', data);
