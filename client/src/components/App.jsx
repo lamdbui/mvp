@@ -158,7 +158,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <h2>DogAdopt.us</h2>
+        <h1 id="app-title">DogAdopt.us</h1>
         <button type="button" onClick={this.handleShowFavoritesClick}>Show Favorites</button>
         <button type="button" onClick={this.handleShowAllClick}>Show All</button>
         <p>
