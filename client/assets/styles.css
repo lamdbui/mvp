@@ -4,8 +4,16 @@ body {
 .app-logo {
   float: right;
 }
-.pet-list-entry {
-
+.pet-list-entry-profile {
+  /*height: 130px;*/
+  float: left;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.pet-list-entry-details {
+  height: 146px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 #app-title {
   font-family: 'Chewy', cursive;

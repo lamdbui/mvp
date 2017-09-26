@@ -140,11 +140,11 @@ class App extends React.Component {
         let breedCounter = {};
         // initialize our breedList
         data.forEach(breed => {
-          console.log('*** BREED:', breed);
+          // console.log('*** BREED:', breed);
           breedCounter[breed] = 0;
         });
 
-        console.log('*** BREED C:', breedCounter);
+        // console.log('*** BREED C:', breedCounter);
         //
         // console.log('*** BC:', breedCounter);
         this.setState({ breeds: data });
