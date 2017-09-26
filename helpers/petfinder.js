@@ -11,7 +11,7 @@ const defaults = {
   OUTPUT_TYPE: 'basic', // can also be 'full'
   ANIMAL: 'dog',
   FORMAT: 'json',
-  COUNT: 50,
+  COUNT: 125,
   LOCATION: 'san francisco, ca'
 };
 

@@ -21,8 +21,8 @@ class Search extends React.Component {
   render() {
     return (
       <div>
-        <p>Current Location: {this.props.currentLocation.toUpperCase()}</p>
-        <input value={this.state.location} onChange={this.handleInputChange}></input>
+        <p>Current Search Location: {this.props.currentLocation.toUpperCase()}</p>
+        <input placeholder="Enter postal code/city..." value={this.state.location} onChange={this.handleInputChange}></input>
         <button onClick={this.handleSubmit}>Search Location</button>
       </div>
     );

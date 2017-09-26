@@ -23,8 +23,10 @@ class PetListEntry extends React.Component {
   render() {
     return (
       <div>
-        <h4>{this.props.pet.name}</h4>
+        <h4>{this.props.pet.name.toUpperCase()}</h4>
         <img src={this.props.pet.photoUrls[1]}></img>
+        <div>Sex: {(this.props.pet.sex === 'F') ? 'Female' : 'Male'}</div>
+        <div>Age: {this.props.pet.ageClass}</div>
         <button type="button" onClick={this.handleFavoriteClick}>Add to favorites</button>
         <p>{this.props.pet.description}</p>
       </div>
