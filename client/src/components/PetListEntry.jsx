@@ -22,7 +22,8 @@ class PetListEntry extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="pet-list-entry">
+        <hr></hr>
         <h4>{this.props.pet.name.toUpperCase()}</h4>
         <img src={this.props.pet.photoUrls[1]}></img>
         <button type="button" onClick={this.handleFavoriteClick}>Add to favorites</button>
@@ -47,6 +48,7 @@ class PetListEntry extends React.Component {
             </tbody>
           </table>
         </div>
+        <div><h4>Description</h4></div>
         <p>{this.props.pet.description}</p>
       </div>
     );

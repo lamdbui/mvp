@@ -1,6 +1,12 @@
 body {
   font-family: 'Helvetica';
 }
+.app-logo {
+  float: right;
+}
+.pet-list-entry {
+
+}
 #app-title {
   font-family: 'Chewy', cursive;
 }
