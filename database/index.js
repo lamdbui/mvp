@@ -13,7 +13,7 @@ const petSchema = mongoose.Schema({
   breed: [String],
   mix: Boolean,
   size: String,             // 'S' || 'M' || 'L'
-  sex: String,           // 'M' || 'F'
+  sex: String,              // 'M' || 'F'
   age: Number,
   ageClass: String,
   photoUrls: [String],
@@ -32,10 +32,6 @@ const petSchema = mongoose.Schema({
 }, { versionKey: 'pet v1' }); // set a version to keep track for migrations later
 
 var Pet = mongoose.model('Pet', petSchema);
-
-// var getSchemaMapping() {
-//
-// };
 
 var get = (callback) => {
   Pet.find().exec()
