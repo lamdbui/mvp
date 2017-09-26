@@ -6,6 +6,7 @@ class App extends React.Component {
 
     this.state = {
       breeds: [],
+      breedCounter: {},
       currentSelectedBreed: 'ALL BREEDS',
       pets: [],
       currentPets: [],
@@ -85,7 +86,25 @@ class App extends React.Component {
       method: 'GET',
       url: '/pets',
       success: (data) => {
-        this.setState({ pets: data, currentPets: data });
+
+        // count all the breeds
+        let breedCounter = {};
+        data.forEach(pet => {
+          // console.log('*** BREED:', pet.breed);
+          let currentPetbreeds = pet.breed;
+          currentPetbreeds.forEach(breed => {
+            breedCounter[breed] = (breedCounter[breed] === undefined) ? 1 : breedCounter[breed] + 1;
+          });
+        });
+
+        console.log('*** BC:', breedCounter);
+
+        this.setState({
+          pets: data,
+          currentPets: data,
+          breedCounter: breedCounter
+        });
+        // this.setState({ pets: data, currentPets: data });
       },
       error: (data) => {
         console.log('*** THE SADNESS -', data);
@@ -97,6 +116,23 @@ class App extends React.Component {
       url: '/breeds',
       success: (data) => {
         // console.log('*** RETRIEVED BREEDS');
+        // create a breed object with count
+        // let breedObj = data.map(breed => {
+        //   return { name: breed, }
+        // }, [])
+
+
+        let breedCounter = {};
+        // initialize our breedList
+        // let breedList = [];
+        data.forEach(breed => {
+          console.log('*** BREED:', breed);
+          breedCounter[breed] = 0;
+        });
+
+        console.log('*** BREED C:', breedCounter);
+        //
+        // console.log('*** BC:', breedCounter);
         this.setState({ breeds: data });
       },
       error: (data) => {
@@ -116,7 +152,7 @@ class App extends React.Component {
           <label>Select Breed: </label>
           <select id="breed_list" onChange={this.handleBreedSelect}>
             <option value={this.ALL_BREEDS}>{this.ALL_BREEDS}</option>
-            {this.state.breeds.map((breed, key) => <option key={key} value={breed}>{breed}</option>)}
+            {this.state.breeds.map((breed, key) => <option key={key} value={breed}>{breed} - {this.state.breedCounter[breed]}</option>)}
           </select>
         </p>
         <Search currentLocation={this.state.currentLocation} setLocationCallback={this.setLocationStateHandler}></Search>
