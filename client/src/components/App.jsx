@@ -141,7 +141,6 @@ class App extends React.Component {
 
         let breedCounter = {};
         // initialize our breedList
-        // let breedList = [];
         data.forEach(breed => {
           console.log('*** BREED:', breed);
           breedCounter[breed] = 0;
@@ -173,7 +172,7 @@ class App extends React.Component {
           </select>
         </p>
         <Search currentLocation={this.state.currentLocation} setLocationCallback={this.setLocationStateHandler}></Search>
-        <PetList pets={this.state.currentPets}></PetList>
+        <PetList pets={this.state.currentPets} currentBreed={this.state.currentSelectedBreed}></PetList>
       </div>
     );
   }
