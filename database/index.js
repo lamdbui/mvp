@@ -45,7 +45,44 @@ var get = (callback) => {
     });
 };
 
-// assume input is premapped to schema
+// var savePet = (pet, callback) => {
+//   let petModel = new Pet(pet);
+//   petModel.save((error, doc, numAffected) => {
+//     // saveAttemptCount++;
+//     if (error) {
+//       console.log('Error saving pet:', error);
+//       callback(error, null)
+//     } else {
+//       callback(null, numAffected);
+//       // successfulSaves++;
+//       // if (saveAttemptCount === petsArray.length) {
+//       //   callback(null, successfulSaves);
+//       // }
+//     }
+//   });
+// };
+
+// // assume input is premapped to schema
+// var saveMultiplePets = (petsArray, callback) => {
+//   let saveAttemptCount = 0;
+//   let successfulSaves = 0;
+//   petsArray.forEach(pet => {
+//     saveAttemptCount++;
+//     savePet(pet);
+//     // let petModel = new Pet(pet);
+//     // petModel.save((error, doc, numAffected) => {
+//     //   // saveAttemptCount++;
+//     //   if (error) {
+//     //     console.log('Error saving pet:', error);
+//     //   } else {
+//     //     successfulSaves++;
+//     //     if (saveAttemptCount === petsArray.length) {
+//     //       callback(null, successfulSaves);
+//     //     }
+//     //   }
+//     // });
+//   });
+// };
 var save = (petsArray, callback) => {
   let saveAttemptCount = 0;
   let successfulSaves = 0;

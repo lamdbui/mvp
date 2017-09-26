@@ -7,10 +7,25 @@ class PetListEntry extends React.Component {
 
   handleFavoriteClick() {
     console.log('CLICKED FAVORITE: ', this.props.pet.petId);
+    // TODO: should we hit the database each time?
+    $.ajax({
+      method: 'POST',
+      url: '/favorites',
+      data: JSON.stringify(this.props.pet),
+      success: (data) => {
+        console.log('*** GRABBED DATA:', data);
+        // this.setState({pets: data});
+        // console.log('*** NEW DATA: ', this.state.pets.length);
+      },
+      error: (data) => {
+        console.log('*** THE SADNESS -', data);
+      }
+    });
   }
 
   render() {
-    return ( <div>
+    return (
+      <div>
         <h4>{this.props.pet.name}</h4>
         <img src={this.props.pet.photoUrls[0]}></img>
         <button type="button" onClick={this.handleFavoriteClick}>Add to favorites</button>

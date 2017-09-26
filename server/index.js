@@ -1,10 +1,13 @@
 const express = require('express');
 const database = require('../database');
 const petfinder = require('../helpers/petfinder');
+const bodyparser = require('body-parser');
 const app = express();
 
 const PORT = process.env.PORT || 3333;
 
+// app.use(bodyparser.json());
+// app.use(bodyparser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/../'));
 
 app.get('/pets', (request, response) => {
@@ -27,7 +30,52 @@ app.get('/pets', (request, response) => {
 
 app.get('/favorites', (request, response) => {
   console.log('GET /favorites');
-  response.status(200).send();
+  database.get((error, data) => {
+    if (error) {
+      response.status(400).send([]);
+    } else {
+      console.log('GET /favorites DATA:', data);
+      response.status(200).send(data);
+    }
+  });
+  // response.status(200).send();
+});
+
+app.post('/favorites', (request, response) => {
+  console.log('POST /favorites:', request);
+
+  request.on('data', (data) => {
+    let petDataObj = JSON.parse(data);
+    console.log('POST /favorites DATA:', petDataObj);
+    // save our favorited object to the databases
+    database.save([petDataObj], (error, numAffected) => {
+      if (error) {
+        response.status(400).send();
+      } else {
+        response.status(201).send();
+      }
+    });
+    // response.status(201).send();
+  });
+  // request.on('data', (error,))
+
+  // $.ajax({
+  //   method: 'POST',
+  //   url: '/pet',
+  //   data: request.body,
+  //   success: (data) => {
+  //     console.log('*** POSTED DATA:', data);
+  //     // this.setState({pets: data});
+  //     // console.log('*** NEW DATA: ', this.state.pets.length);
+  //   },
+  //   error: (data) => {
+  //     console.log('*** THE SADNESS -', data);
+  //   }
+  // });
+
+  // database.save([])
+
+  //response.status(201).send();
 });
 
 app.listen(PORT, () => {
