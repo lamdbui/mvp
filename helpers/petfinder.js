@@ -216,6 +216,15 @@ var getPets = (options = {}) => {
   });
 }
 
+// works on the array returned to us from the Petfinder API
+// exampleData.petfinder.pets.pet
+var mapRequestToPetsModelArray = jsonPetsResponse => {
+  let mappedPetsModelsArr = jsonPetsResponse.map(singleJsonPetResponse => {
+    return mapRequestToPetDatabaseModel(singleJsonPetResponse);
+  }, []);
+  return mappedPetsModelsArr;
+};
+
 // TODO: Maybe think of a better place to put this or do this
 var mapRequestToPetDatabaseModel = jsonPetResponse => {
   // petfinder uses this key, not sure why...
@@ -243,6 +252,8 @@ var mapRequestToPetDatabaseModel = jsonPetResponse => {
   // console.log('*ID:', jsonPetResponse.id);
   // console.log('*ID2:', jsonPetResponse.id[DEFAULT_PETFINDER_KEY]);
 
+  // TODO: We should probably trim whitespace to keep things consistent
+
   let modelMap = {
     petId: (jsonPetResponse.id) ? parseInt(jsonPetResponse.id[DEFAULT_PETFINDER_KEY]) : DEFAULT_NUMBER,
     name: (jsonPetResponse.name) ? jsonPetResponse.name[DEFAULT_PETFINDER_KEY] : DEFAULT_STRING,
@@ -266,7 +277,7 @@ var mapRequestToPetDatabaseModel = jsonPetResponse => {
     contactCity: (jsonPetResponse.contact && jsonPetResponse.contact.city) ? jsonPetResponse.contact.city[DEFAULT_PETFINDER_KEY] : DEFAULT_STRING,
     contactState: DEFAULT_STRING,     // currently no State info available in API
     contactPostalCode: (jsonPetResponse.contact && jsonPetResponse.contact.zip) ? jsonPetResponse.contact.zip[DEFAULT_PETFINDER_KEY] : DEFAULT_STRING,
-    contactPhoneNumber: (jsonPetResponse.contact && jsonPetResponse.contact.phone) ? jsonPetResponse.contact.phone[DEFAULT_PETFINDER_KEY] : DEFAULT_STRING,
+    contactPhoneNumber: (jsonPetResponse.contact && jsonPetResponse.contact.phone) ? jsonPetResponse.contact.phone[DEFAULT_PETFINDER_KEY].trim() : DEFAULT_STRING,
     contactEmail: (jsonPetResponse.contact && jsonPetResponse.contact.email) ? jsonPetResponse.contact.email[DEFAULT_PETFINDER_KEY] : DEFAULT_STRING
   };
 
@@ -275,4 +286,5 @@ var mapRequestToPetDatabaseModel = jsonPetResponse => {
 
 module.exports.getPets = getPets;
 module.exports.mapRequestToPetDatabaseModel = mapRequestToPetDatabaseModel;
+module.exports.mapRequestToPetsModelArray = mapRequestToPetsModelArray;
 // module.exports.testPet = testPet;
