@@ -62,7 +62,7 @@ class App extends React.Component {
       url: '/favorites',
       success: (data) => {
         this.setState({
-          filterByFavorites: true,
+          filterByFavorites: !this.state.filterByFavorites,
           currentPets: data,
           currentSelectedBreed: this.ALL_BREEDS
         });
@@ -70,7 +70,7 @@ class App extends React.Component {
       error: (data) => {
         console.log('*** THE SADNESS -', data);
         this.setState({
-          filterByFavorites: true,
+          filterByFavorites: !this.state.filterByFavorites,
           currentSelectedBreed: this.ALL_BREEDS
         });
       }
@@ -151,7 +151,6 @@ class App extends React.Component {
       },
       error: (data) => {
         console.log('*** THE SADNESS -', data);
-        // this.setState({ filterByFavorites: true });
       }
     });
   }

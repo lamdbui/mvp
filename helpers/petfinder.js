@@ -26,7 +26,6 @@ const defaults = {
 
 var getBreeds = (options = {}) => {
   return new Promise((resolve, reject) => {
-    // http://api.petfinder.com/breed.list?key=41b719a759f2fd9be0cdd9bbd2e1fb27&animal=dog&format=json
     let queryOptions = {
       'key': process.env.PETFINDER_API_KEY, // TODO: Think of what to do for default here
       'animal': options.animal || defaults.ANIMAL,
@@ -99,9 +98,6 @@ var mapRequestToBreedsArray = jsonBreedsResponse => {
 
 // TODO: Maybe think of a better place to put this or do this - util module?
 var mapRequestToPetDatabaseModel = jsonPetResponse => {
-  // // petfinder uses this key, not sure why...
-  // const DEFAULT_PETFINDER_KEY = '$t';
-
   // TODO: This should really be defined on the database side
   const DEFAULT_NUMBER = -1;
   const DEFAULT_STRING = '';
@@ -120,7 +116,6 @@ var mapRequestToPetDatabaseModel = jsonPetResponse => {
   let mappedPhotosArr = jsonPetResponsePhotos.map(photo => {
     return photo[DEFAULT_PETFINDER_KEY];
   }, []);
-
 
   // TODO: We should probably trim whitespace to keep things consistent
   let modelMap = {
