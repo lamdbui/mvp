@@ -40,15 +40,13 @@ class App extends React.Component {
           });
         });
 
-        console.log('*** BC:', breedCounter);
+        // console.log('*** BC:', breedCounter);
 
         this.setState({
           pets: data,
           currentPets: data,
           breedCounter: breedCounter
         });
-
-        // this.setState({ pets: data, currentPets: data });
       },
       error: (data) => {
         console.log('*** THE SADNESS -', data);
@@ -95,7 +93,7 @@ class App extends React.Component {
   }
 
   handleShowAllClick() {
-    this.setState({ filterByFavorites: true, currentPets: this.state.pets });
+    this.setState({ filterByFavorites: false, currentPets: this.state.pets });
   }
 
   componentDidMount() {
@@ -132,13 +130,6 @@ class App extends React.Component {
       method: 'GET',
       url: '/breeds',
       success: (data) => {
-        // console.log('*** RETRIEVED BREEDS');
-        // create a breed object with count
-        // let breedObj = data.map(breed => {
-        //   return { name: breed, }
-        // }, [])
-
-
         let breedCounter = {};
         // initialize our breedList
         data.forEach(breed => {
@@ -172,10 +163,8 @@ class App extends React.Component {
           </select>
         </p>
         <Search currentLocation={this.state.currentLocation} setLocationCallback={this.setLocationStateHandler}></Search>
-        <PetList pets={this.state.currentPets} currentBreed={this.state.currentSelectedBreed}></PetList>
+        <PetList pets={this.state.currentPets} currentBreed={this.state.currentSelectedBreed} favorites={this.state.filterByFavorites}></PetList>
       </div>
     );
   }
 }
-
-window.App = App;
