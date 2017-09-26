@@ -5,15 +5,49 @@ const petModel = database.Pet;
 
 const LOG_TAG = 'PETFINDER';
 
+// petfinder uses this key, not sure why...
+const DEFAULT_PETFINDER_KEY = '$t';
+
+// TODO: Add table with valid routes
+const routes = {
+  PET_FIND: 'pet.find',
+  BREED_LIST: 'breed.list'
+};
+
 const defaults = {
   BASE_URL: 'http://api.petfinder.com/',
-  ROUTE: 'pet.find',
+  ROUTE: routes.PET_FIND,
   OUTPUT_TYPE: 'basic', // can also be 'full'
   ANIMAL: 'dog',
   FORMAT: 'json',
   COUNT: 125,
   LOCATION: 'san francisco, ca'
 };
+
+var getBreeds = (options = {}) => {
+  return new Promise((resolve, reject) => {
+    // http://api.petfinder.com/breed.list?key=41b719a759f2fd9be0cdd9bbd2e1fb27&animal=dog&format=json
+    let queryOptions = {
+      'key': process.env.PETFINDER_API_KEY, // TODO: Think of what to do for default here
+      'animal': options.animal || defaults.ANIMAL,
+      'format': options.format || defaults.FORMAT
+    };
+    let resultQueryString = querystring.stringify(queryOptions);
+
+    console.log(`[${LOG_TAG}] /breeds query: ${defaults.BASE_URL}/${routes.BREED_LIST}?${resultQueryString}`);
+
+    request.get(`${defaults.BASE_URL}/${routes.BREED_LIST}?${resultQueryString}`, (error, response, body) => {
+      if (error) {
+        console.log(`[${LOG_TAG}] GET ${routes.BREED_LIST} failure : ${error}`);
+        reject(error);
+      } else {
+        console.log(`[${LOG_TAG}] GET ${routes.BREED_LIST} data received: ${response}`);
+        resolve(response);
+      }
+    });
+  });
+};
+
 
 // valid configuration options
 // {
@@ -22,7 +56,6 @@ const defaults = {
 //   count:    // Integer
 //   location: // postalCode or city (e.g. 92612 or 'san francisco, ca')
 // }
-
 var getPets = (options = {}) => {
   return new Promise((resolve, reject) => {
     let queryOptions = {
@@ -32,7 +65,7 @@ var getPets = (options = {}) => {
       'count': options.count || defaults.COUNT,
       'animal': options.animal || defaults.ANIMAL,
       'format': options.format || defaults.FORMAT
-    }
+    };
     let resultQueryString = querystring.stringify(queryOptions);
 
     console.log(`[${LOG_TAG}] query: ${defaults.BASE_URL}/${defaults.ROUTE}?${resultQueryString}`);
@@ -58,10 +91,16 @@ var mapRequestToPetsModelArray = jsonPetsResponse => {
   return mappedPetsModelsArr;
 };
 
-// TODO: Maybe think of a better place to put this or do this
+var mapRequestToBreedsArray = jsonBreedsResponse => {
+  return jsonBreedsResponse.map(breed => {
+    return breed[DEFAULT_PETFINDER_KEY];
+  }, []);
+};
+
+// TODO: Maybe think of a better place to put this or do this - util module?
 var mapRequestToPetDatabaseModel = jsonPetResponse => {
-  // petfinder uses this key, not sure why...
-  const DEFAULT_PETFINDER_KEY = '$t';
+  // // petfinder uses this key, not sure why...
+  // const DEFAULT_PETFINDER_KEY = '$t';
 
   // TODO: This should really be defined on the database side
   const DEFAULT_NUMBER = -1;
@@ -115,5 +154,7 @@ var mapRequestToPetDatabaseModel = jsonPetResponse => {
 };
 
 module.exports.getPets = getPets;
+module.exports.getBreeds = getBreeds;
+module.exports.mapRequestToBreedsArray = mapRequestToBreedsArray;
 module.exports.mapRequestToPetDatabaseModel = mapRequestToPetDatabaseModel;
 module.exports.mapRequestToPetsModelArray = mapRequestToPetsModelArray;

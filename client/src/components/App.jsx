@@ -15,10 +15,7 @@ class App extends React.Component {
   }
 
   setLocationStateHandler(location) {
-
-    // TODO: Fetch actual location data here
     // TODO: do some validation of location here (helper function)
-
     console.log('LOCATION:', location);
 
     let url = (location === undefined || location === '') ? '/pets' : `/pets?location=${location}`;

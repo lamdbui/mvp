@@ -11,23 +11,30 @@ const PORT = process.env.PORT || 3333;
 // app.use(bodyparser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/../'));
 
+app.get('/breeds', (request, response) => {
+  console.log('GET /breeds');
+
+  petfinder.getBreeds()
+    .then(resolve => {
+      let breedsResolve = JSON.parse(resolve.body);
+      let breeds = breedsResolve.petfinder.breeds.breed;
+      // do mapping to simple breeds list
+      let breedsArr = petfinder.mapRequestToBreedsArray(breeds);
+      response.status(200).send(breedsArr);
+    })
+    .catch(reject => {
+      response.status(400).send([]);
+    });
+});
+
 app.get('/pets', (request, response) => {
-  console.log('ATTEMPTING TO GET /pets');
+  console.log('GET /pets');
 
   // TODO: more fancy parsing here for more than 1 arguemtns
   let queryStringArr = request.url.split('?');
   let queryParams = (queryStringArr.length > 1) ? querystring.parse(queryStringArr[1]) : {};
   let petfinderOptions = queryParams;
 
-  // let petfinderOptions = {};
-
-  // queryParams.forEach(paramString => {
-  //   petfinderOptions[]
-  // });
-
-  // request.on('data', (data) => {
-  //   console.log('$$$ DATA:', data);
-  // });
   petfinder.getPets(petfinderOptions)
     .then(resolve => {
       let petsResolve = JSON.parse(resolve.body);
