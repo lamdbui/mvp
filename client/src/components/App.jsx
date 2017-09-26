@@ -3,8 +3,20 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      pets: []
+      pets: [],
+      currentPets: []
     };
+
+    this.handleShowFavoritesClick = this.handleShowFavoritesClick.bind(this);
+    this.handleShowAllClick = this.handleShowAllClick.bind(this);
+  }
+
+  handleShowFavoritesClick() {
+    console.log('HANDLE FAVORITES CLICK');
+  }
+
+  handleShowAllClick() {
+    console.log('HANDLE SHOW ALL CLICK');
   }
 
   componentDidMount() {
@@ -14,6 +26,7 @@ class App extends React.Component {
       success: (data) => {
         // console.log('*** GRABBED DATA:', data);
         this.setState({pets: data});
+        this.setState({currentPets: data});
         // console.log('*** NEW DATA: ', this.state.pets.length);
       },
       error: (data) => {
@@ -26,6 +39,8 @@ class App extends React.Component {
     return (
       <div>
         <h2>DogAdopt.us</h2>
+        <button type="button" onClick={this.handleShowFavoritesClick}>Show Favorites</button>
+        <button type="button" onClick={this.handleShowAllClick}>Show All</button>
         <PetList pets={this.state.pets}></PetList>
       </div>
     );
