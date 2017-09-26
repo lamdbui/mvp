@@ -61,11 +61,18 @@ class App extends React.Component {
       method: 'GET',
       url: '/favorites',
       success: (data) => {
-        this.setState({ filterByFavorites: true, currentPets: data });
+        this.setState({
+          filterByFavorites: true,
+          currentPets: data,
+          currentSelectedBreed: this.ALL_BREEDS
+        });
       },
       error: (data) => {
         console.log('*** THE SADNESS -', data);
-        this.setState({ filterByFavorites: true });
+        this.setState({
+          filterByFavorites: true,
+          currentSelectedBreed: this.ALL_BREEDS
+        });
       }
     });
   }
