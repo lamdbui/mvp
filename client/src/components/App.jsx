@@ -13,17 +13,11 @@ class App extends React.Component {
   }
 
   handleShowFavoritesClick() {
-    // console.log('HANDLE FAVORITES CLICK');
-
     $.ajax({
       method: 'GET',
       url: '/favorites',
       success: (data) => {
-        // console.log('*** GRABBED DATA:', data);
         this.setState({ filterByFavorites: true, currentPets: data });
-        // this.setState({ pets: data });
-        // this.setState({ currentPets: data });
-        // console.log('*** NEW DATA: ', this.state.pets.length);
       },
       error: (data) => {
         console.log('*** THE SADNESS -', data);
@@ -33,9 +27,7 @@ class App extends React.Component {
   }
 
   handleShowAllClick() {
-    // console.log('HANDLE SHOW ALL CLICK');
     this.setState({ filterByFavorites: true, currentPets: this.state.pets });
-    // this.setState({ filterByFavorites: false });
   }
 
   componentDidMount() {
@@ -43,10 +35,8 @@ class App extends React.Component {
       method: 'GET',
       url: '/pets',
       success: (data) => {
-        // console.log('*** GRABBED DATA:', data);
         this.setState({ pets: data });
         this.setState({ currentPets: data });
-        // console.log('*** NEW DATA: ', this.state.pets.length);
       },
       error: (data) => {
         console.log('*** THE SADNESS -', data);

@@ -1,7 +1,7 @@
 const express = require('express');
 const database = require('../database');
 const petfinder = require('../helpers/petfinder');
-const bodyparser = require('body-parser');
+// const bodyparser = require('body-parser');
 const app = express();
 
 const PORT = process.env.PORT || 3333;
@@ -18,9 +18,7 @@ app.get('/pets', (request, response) => {
       let pets = petsResolve.petfinder.pets.pet;
       // console.log('GET RESOLVE /pets:', pets);
       let mappedPetsModelsArr = petfinder.mapRequestToPetsModelArray(pets);
-      // console.log('*** MAPPED:', mappedPetsModelsArr);
       response.status(200).send(mappedPetsModelsArr);
-      // response.status(200).send({});
     })
     .catch(reject => {
       // console.log('GET REJECT /pets:', reject);
@@ -38,7 +36,6 @@ app.get('/favorites', (request, response) => {
       response.status(200).send(data);
     }
   });
-  // response.status(200).send();
 });
 
 app.post('/favorites', (request, response) => {
@@ -55,27 +52,7 @@ app.post('/favorites', (request, response) => {
         response.status(201).send();
       }
     });
-    // response.status(201).send();
   });
-  // request.on('data', (error,))
-
-  // $.ajax({
-  //   method: 'POST',
-  //   url: '/pet',
-  //   data: request.body,
-  //   success: (data) => {
-  //     console.log('*** POSTED DATA:', data);
-  //     // this.setState({pets: data});
-  //     // console.log('*** NEW DATA: ', this.state.pets.length);
-  //   },
-  //   error: (data) => {
-  //     console.log('*** THE SADNESS -', data);
-  //   }
-  // });
-
-  // database.save([])
-
-  //response.status(201).send();
 });
 
 app.listen(PORT, () => {
