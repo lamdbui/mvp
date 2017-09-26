@@ -1,4 +1,5 @@
 const express = require('express');
+const querystring = require('querystring');
 const database = require('../database');
 const petfinder = require('../helpers/petfinder');
 // const bodyparser = require('body-parser');
@@ -12,10 +13,22 @@ app.use(express.static(__dirname + '/../'));
 
 app.get('/pets', (request, response) => {
   console.log('ATTEMPTING TO GET /pets');
-  request.on('data', (data) => {
-    console.log('$$$ DATA:', data);
-  });
-  petfinder.getPets()
+
+  // TODO: more fancy parsing here for more than 1 arguemtns
+  let queryStringArr = request.url.split('?');
+  let queryParams = (queryStringArr.length > 1) ? querystring.parse(queryStringArr[1]) : {};
+  let petfinderOptions = queryParams;
+
+  // let petfinderOptions = {};
+
+  // queryParams.forEach(paramString => {
+  //   petfinderOptions[]
+  // });
+
+  // request.on('data', (data) => {
+  //   console.log('$$$ DATA:', data);
+  // });
+  petfinder.getPets(petfinderOptions)
     .then(resolve => {
       let petsResolve = JSON.parse(resolve.body);
       let pets = petsResolve.petfinder.pets.pet;

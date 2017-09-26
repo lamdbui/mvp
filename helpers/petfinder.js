@@ -9,6 +9,7 @@ const defaults = {
   BASE_URL: 'http://api.petfinder.com/',
   ROUTE: 'pet.find',
   OUTPUT_TYPE: 'basic', // can also be 'full'
+  ANIMAL: 'dog',
   FORMAT: 'json',
   COUNT: 50,
   LOCATION: 'san francisco, ca'
@@ -29,6 +30,7 @@ var getPets = (options = {}) => {
       'output': options.output || defaults.OUTPUT_TYPE,
       'location': options.location || defaults.LOCATION,
       'count': options.count || defaults.COUNT,
+      'animal': options.animal || defaults.ANIMAL,
       'format': options.format || defaults.FORMAT
     }
     let resultQueryString = querystring.stringify(queryOptions);
@@ -105,7 +107,7 @@ var mapRequestToPetDatabaseModel = jsonPetResponse => {
     contactCity: (jsonPetResponse.contact && jsonPetResponse.contact.city) ? jsonPetResponse.contact.city[DEFAULT_PETFINDER_KEY] : DEFAULT_STRING,
     contactState: DEFAULT_STRING,     // currently no State info available in API
     contactPostalCode: (jsonPetResponse.contact && jsonPetResponse.contact.zip) ? jsonPetResponse.contact.zip[DEFAULT_PETFINDER_KEY] : DEFAULT_STRING,
-    contactPhoneNumber: (jsonPetResponse.contact && jsonPetResponse.contact.phone) ? jsonPetResponse.contact.phone[DEFAULT_PETFINDER_KEY].trim() : DEFAULT_STRING,
+    contactPhoneNumber: (jsonPetResponse.contact && jsonPetResponse.contact.phone) ? jsonPetResponse.contact.phone[DEFAULT_PETFINDER_KEY] : DEFAULT_STRING,
     contactEmail: (jsonPetResponse.contact && jsonPetResponse.contact.email) ? jsonPetResponse.contact.email[DEFAULT_PETFINDER_KEY] : DEFAULT_STRING
   };
 
