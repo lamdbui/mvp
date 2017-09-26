@@ -6,7 +6,7 @@ class PetList extends React.Component {
   render() {
     return (
       <div>
-        <h3>Available Dogs for Adoption</h3>
+        <h3>Available Dogs for Adoption - ({this.props.pets.length})</h3>
         {this.props.pets.map((pet, k) => <PetListEntry key={k} pet={pet} />)}
       </div>
     );

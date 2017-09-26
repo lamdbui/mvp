@@ -5,11 +5,20 @@ class App extends React.Component {
     this.state = {
       pets: [],
       currentPets: [],
-      filterByFavorites: false
+      filterByFavorites: false,
+      currentLocation: 'san francisco, ca'
     };
 
     this.handleShowFavoritesClick = this.handleShowFavoritesClick.bind(this);
     this.handleShowAllClick = this.handleShowAllClick.bind(this);
+    this.setLocationStateHandler = this.setLocationStateHandler.bind(this);
+  }
+
+  setLocationStateHandler(location) {
+
+    // TODO: Fetch actual location data here
+    // TODO: do some validation here
+    this.setState({ currentLocation: location });
   }
 
   handleShowFavoritesClick() {
@@ -35,8 +44,7 @@ class App extends React.Component {
       method: 'GET',
       url: '/pets',
       success: (data) => {
-        this.setState({ pets: data });
-        this.setState({ currentPets: data });
+        this.setState({ pets: data, currentPets: data });
       },
       error: (data) => {
         console.log('*** THE SADNESS -', data);
@@ -50,6 +58,7 @@ class App extends React.Component {
         <h2>DogAdopt.us</h2>
         <button type="button" onClick={this.handleShowFavoritesClick}>Show Favorites</button>
         <button type="button" onClick={this.handleShowAllClick}>Show All</button>
+        <Search currentLocation={this.state.currentLocation} setLocationCallback={this.setLocationStateHandler}></Search>
         <PetList pets={this.state.currentPets}></PetList>
       </div>
     );

@@ -10,6 +10,7 @@ const defaults = {
   ROUTE: 'pet.find',
   OUTPUT_TYPE: 'basic', // can also be 'full'
   FORMAT: 'json',
+  COUNT: 50,
   LOCATION: 'san francisco, ca'
 };
 
@@ -17,6 +18,7 @@ const defaults = {
 // {
 //   output:   // 'basic' || 'full'
 //   format:   // 'json' || 'xml'
+//   count:    // Integer
 //   location: // postalCode or city (e.g. 92612 or 'san francisco, ca')
 // }
 
@@ -26,6 +28,7 @@ var getPets = (options = {}) => {
       'key': process.env.PETFINDER_API_KEY, // TODO: Think of what to do for default here
       'output': options.output || defaults.OUTPUT_TYPE,
       'location': options.location || defaults.LOCATION,
+      'count': options.count || defaults.COUNT,
       'format': options.format || defaults.FORMAT
     }
     let resultQueryString = querystring.stringify(queryOptions);
@@ -112,4 +115,3 @@ var mapRequestToPetDatabaseModel = jsonPetResponse => {
 module.exports.getPets = getPets;
 module.exports.mapRequestToPetDatabaseModel = mapRequestToPetDatabaseModel;
 module.exports.mapRequestToPetsModelArray = mapRequestToPetsModelArray;
-// module.exports.testPet = testPet;

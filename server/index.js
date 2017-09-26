@@ -12,6 +12,9 @@ app.use(express.static(__dirname + '/../'));
 
 app.get('/pets', (request, response) => {
   console.log('ATTEMPTING TO GET /pets');
+  request.on('data', (data) => {
+    console.log('$$$ DATA:', data);
+  });
   petfinder.getPets()
     .then(resolve => {
       let petsResolve = JSON.parse(resolve.body);
