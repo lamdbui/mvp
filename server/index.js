@@ -14,13 +14,23 @@ app.get('/pets', (request, response) => {
   petfinder.getPets()
     .then(resolve => {
       // TODO: resolve is a string, so need to JSON.parse it
-      console.log('GET RESOLVE /pets:', resolve);
-      response.status(200).send(resolve);
+      let petsResolve = JSON.parse(resolve.body);
+      let pets = petsResolve.petfinder.pets.pet;
+      console.log('GET RESOLVE /pets:', pets);
+      let mappedPetsModelsArr = petfinder.mapRequestToPetsModelArray(pets);
+      console.log('*** MAPPED:', mappedPetsModelsArr);
+      response.status(200).send(mappedPetsModelsArr);
+      // response.status(200).send({});
     })
     .catch(reject => {
       console.log('GET REJECT /pets:', reject);
-      response.status(400).send(reject);
+      response.status(400).send([]);
     });
+});
+
+app.get('/favorites', (request, response) => {
+  console.log('GET /favorites');
+  response.status(200).send();
 });
 
 app.listen(PORT, () => {
