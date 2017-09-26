@@ -4,7 +4,8 @@ class App extends React.Component {
 
     this.state = {
       pets: [],
-      currentPets: []
+      currentPets: [],
+      filterByFavorites: false
     };
 
     this.handleShowFavoritesClick = this.handleShowFavoritesClick.bind(this);
@@ -12,11 +13,29 @@ class App extends React.Component {
   }
 
   handleShowFavoritesClick() {
-    console.log('HANDLE FAVORITES CLICK');
+    // console.log('HANDLE FAVORITES CLICK');
+
+    $.ajax({
+      method: 'GET',
+      url: '/favorites',
+      success: (data) => {
+        // console.log('*** GRABBED DATA:', data);
+        this.setState({ filterByFavorites: true, currentPets: data });
+        // this.setState({ pets: data });
+        // this.setState({ currentPets: data });
+        // console.log('*** NEW DATA: ', this.state.pets.length);
+      },
+      error: (data) => {
+        console.log('*** THE SADNESS -', data);
+        this.setState({ filterByFavorites: true });
+      }
+    });
   }
 
   handleShowAllClick() {
-    console.log('HANDLE SHOW ALL CLICK');
+    // console.log('HANDLE SHOW ALL CLICK');
+    this.setState({ filterByFavorites: true, currentPets: this.state.pets });
+    // this.setState({ filterByFavorites: false });
   }
 
   componentDidMount() {
@@ -25,8 +44,8 @@ class App extends React.Component {
       url: '/pets',
       success: (data) => {
         // console.log('*** GRABBED DATA:', data);
-        this.setState({pets: data});
-        this.setState({currentPets: data});
+        this.setState({ pets: data });
+        this.setState({ currentPets: data });
         // console.log('*** NEW DATA: ', this.state.pets.length);
       },
       error: (data) => {
@@ -41,7 +60,7 @@ class App extends React.Component {
         <h2>DogAdopt.us</h2>
         <button type="button" onClick={this.handleShowFavoritesClick}>Show Favorites</button>
         <button type="button" onClick={this.handleShowAllClick}>Show All</button>
-        <PetList pets={this.state.pets}></PetList>
+        <PetList pets={this.state.currentPets}></PetList>
       </div>
     );
   }
