@@ -29,7 +29,7 @@ class PetListEntry extends React.Component {
           <img src={this.props.pet.photoUrls[1]}></img>
           {/* <button type="button" onClick={this.handleFavoriteClick}>Add to favorites</button> */}
         </div>
-        {/* <button type="button" onClick={this.handleFavoriteClick}>Add to favorites</button> */}
+        <button type="button" onClick={this.handleFavoriteClick}>Add to favorites</button>
         <div className="pet-list-entry-details">
           <div><b>Sex:</b> {(this.props.pet.sex === 'F') ? 'Female' : 'Male'}</div>
           <div><b>Age:</b> {this.props.pet.ageClass}</div>
@@ -53,10 +53,10 @@ class PetListEntry extends React.Component {
               </tbody>
             </table>
           </div>
-        </div>
+        {/* </div> */}
         {/* <button type="button" onClick={this.handleFavoriteClick}>Add to favorites</button> */}
-        <div>
-          <button type="button" onClick={this.handleFavoriteClick}>Add to favorites</button>
+        {/* <div> */}
+          {/* <button type="button" onClick={this.handleFavoriteClick}>Add to favorites</button> */}
           <h4>Description</h4>
           <p>{this.props.pet.description}</p>
         </div>
