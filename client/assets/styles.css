@@ -7,6 +7,7 @@ body {
 .pet-list-entry-profile {
   /*height: 130px;*/
   float: left;
+  padding:top: 5px;
   padding-left: 5px;
   padding-right: 5px;
 }
